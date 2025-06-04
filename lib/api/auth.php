@@ -1,16 +1,10 @@
 <?php
-if (!defined('ABSPATH'))
+if (!defined('ABSPATH')) {
     exit;
-
-/**
- * Get the Beecomm API base URL.
- *
- * @return string
- */
-function beecomm_get_base_url(): string
-{
-    return 'https://biapp.beecomm.co.il:8094';
 }
+
+// Ensure request.php is loaded so we can use beecomm_get_base_url()
+require_once __DIR__ . '/request.php';
 
 /**
  * Get the stored client credentials from plugin settings.

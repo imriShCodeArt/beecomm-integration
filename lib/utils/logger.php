@@ -46,7 +46,7 @@ function beecommLog($entry, $type = 'info', $method = '', $mode = 'a', $filename
  * @param string $method Optional
  * @return void
  */
-function wofErrorLog($message, $method = 'exception')
-{
-    beecommLog($message, 'error', $method);
-}
+// function wofErrorLog($message, $method = 'exception')
+// {
+//     beecommLog($message, 'error', $method);
+// }
