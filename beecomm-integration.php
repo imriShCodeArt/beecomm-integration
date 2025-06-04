@@ -2,17 +2,38 @@
 /**
  * Plugin Name: התממשקות לביקום
  * Description: שליחת פרטי ההזמנות באתר למערכת Beecomm
- * Version: 1.1
- * Author: M.L Web Solutions
- * Author URI: https://clients.libiserv.co.il/
- **/
+ * Version:     1.1.2
+ * Author:      M.L Web Solutions
+ * Author URI:  https://clients.libiserv.co.il/
+ */
 
-define( 'BEECOMM__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'BEECOMM__PLUGIN_LIB', plugin_dir_path( __FILE__ ) .'lib/' );
+define( 'BEECOMM_PLUGIN_DIR', rtrim( plugin_dir_path( __FILE__ ), '/' ) . '/' );
+define( 'BEECOMM_PLUGIN_LIB', BEECOMM_PLUGIN_DIR . 'lib/' );
 
+$required_files = [
+    'beecomm_constants.php',
+    'integration.php',
+    'admin_page.php',
+    'log-viewer.php',
 
-require_once (BEECOMM__PLUGIN_LIB . '/beecomm_contants.php');
-require_once (BEECOMM__PLUGIN_LIB . '/integration.php');
-require_once (BEECOMM__PLUGIN_LIB . '/admin_page.php');
-require_once (BEECOMM__PLUGIN_LIB . '/log-viewer.php');
-require_once (BEECOMM__PLUGIN_LIB . '/order_cron.php');
+    // Modular structure
+    'utils/logger.php',
+
+    'orders/order-utils.php',
+    'api/beecomm-status.php',
+
+    'sms/send-order-status-sms.php',
+    'sms/templates.php',
+
+    'cron/update-order-status.php',
+    'cron/hooks.php',
+];
+
+foreach ( $required_files as $file ) {
+    $path = BEECOMM_PLUGIN_LIB . $file;
+    if ( file_exists( $path ) ) {
+        require_once $path;
+    } else {
+        error_log( "Beecomm plugin error: missing file $path" );
+    }
+}
