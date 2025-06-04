@@ -2,72 +2,109 @@
 
 A WordPress plugin that integrates your WooCommerce-based restaurant with BeeComm POS system, providing real-time order sync, status updates, and SMS notifications.
 
+---
+
+## 🚀 Version
+
+**v1.1.2** – Now modular and more maintainable. See `CHANGELOG.md` for full details.
+
+---
+
 ## 🔧 Features
 
 - ✅ Push WooCommerce orders to BeeComm upon order processing
 - 🔁 Sync order status from BeeComm to WooCommerce using WP Cron
 - 📩 Send dynamic SMS notifications to customers and admins
-- 🧱 Modular architecture with centralized constants
+- 🧱 **Modular architecture** with separated responsibilities
 - ⚙️ Configurable admin panel for credentials, cron, and templates
 - 🪵 Enhanced logging system with in-dashboard log viewer
 
+---
+
+## 📁 Folder Structure (as of v1.1.2)
+
+- `orders/` – Handles BeeComm payload formatting and order dispatching
+- `api/` – Authentication and HTTP requests to BeeComm API
+- `sms/` – Status-based SMS logic and templates
+- `cron/` – Scheduled order status checks
+- `admin/settings/` – Settings panel for plugin configuration
+- `admin/log-viewer/` – Backend viewer for plugin logs
+- `utils/` – Shared helpers (e.g. logger, meta fields)
+
+---
+
 ## 📦 Installation
 
-1. Upload the plugin files to the `/wp-content/plugins/beecomm-integration` directory or install via the WordPress admin.
-2. Activate the plugin through the 'Plugins' screen in WordPress.
-3. Go to **Settings > אינטגרציה לBeecomm** to configure the plugin.
+1. Upload the plugin to `/wp-content/plugins/beecomm-integration` or install via WordPress Admin.
+2. Activate the plugin from the **Plugins** page.
+3. Go to **Settings > אינטגרציה לBeecomm** and configure your credentials and settings.
+
+---
 
 ## ⚙️ Configuration
 
 ### BeeComm API Settings
-- **Client ID**: Provided by BeeComm support
-- **Client Secret**: Provided by BeeComm support
+- **Client ID** / **Client Secret** – Provided by BeeComm support
 
 ### Cron Settings
-- **Order Sync Interval**: Choose how often to sync order statuses
-- **Number of Orders to Process**: Limit the number of orders processed in each cron run
+- **Sync Interval** – How often to sync order statuses
+- **Batch Size** – Number of orders to process per run
 
 ### SMS Settings
-- **Admin Phone**: Phone number to notify on 'On-Hold' orders
-- **SMS Templates**: Customize messages using dynamic `{{tags}}`
+- **Admin Phone** – For receiving critical order alerts
+- **Templates** – Customizable with dynamic `{{tags}}`
 
-### Example tags:
-- `{{id}} - Order ID`
-- `{{billing_first_name}} - Customer First Name`
-- `{{status}} - Order Status`
-- `{{preparation_time}} - Estimated Preparation Time`
+Example Tags:
+- `{{id}}` – Order ID
+- `{{billing_first_name}}` – Customer first name
+- `{{status}}` – WooCommerce order status
+- `{{preparation_time}}` – Estimated prep time
 
+---
 
 ## 🗓 Cron Job Behavior
 
-The plugin schedules a cron job (`beecomm_order_status_cron`) to:
-- Fetch status of orders with `wc-pending`
-- Update status based on BeeComm response
-- Retry up to 3 times if BeeComm fails
+The plugin registers a cron job (`beecomm_order_status_cron`) that:
+- Fetches all `wc-pending` orders
+- Queries BeeComm for each order’s status
+- Updates WooCommerce orders accordingly
+- Retries failed syncs up to 3 times
+
+---
 
 ## 📩 SMS Notifications
 
-Uses dynamic templates to notify:
-- Customers: Order completed or in progress
-- Admin: Order placed and on hold
+Triggered for:
+- **Customers** when order status changes
+- **Admin** when a new order is placed and is on hold
 
-Supports `Wof_Sms_Api::getInstance()` for sending SMS.
+SMS is sent using:
+```php
+Wof_Sms_Api::getInstance()->send()
+```
+
+---
 
 ## 🪵 Log Viewer
 
-Logs are stored in:
-- `wp-content/uploads/wof-log.log` (order push)
-- `wp-content/uploads/beecomm-sms-log.log` (SMS logs)
+Log files:
+- `wof-log.log` – Order sync logs
+- `beecomm-sms-log.log` – SMS send logs
 
-View logs under **Settings > Log Viewer**
+Both available under:  
+**Settings > Log Viewer**
+
+---
 
 ## 🧑‍💻 Developer Notes
 
-- Hooks:
-  - `woocommerce_order_status_processing` triggers order sync
-  - Cron event `beecomm_order_status_cron` checks remote status
-- Constants defined in `lib/beecomm_contants.php`
-- Logs written using `beecommLog()` helper
+- Hooks used:
+  - `woocommerce_order_status_processing` → triggers BeeComm sync
+  - `beecomm_order_status_cron` → triggers cron sync
+- Logs written with: `wofErrorLog()` helper in `utils/logger.php`
+- Constants defined in: `lib/beecomm_constants.php`
+
+---
 
 ## 📄 License
 
@@ -77,7 +114,3 @@ This plugin is licensed under the GPLv2 or later.
 
 Developed for sushi restaurants using BeeComm POS.  
 Maintained by your web development team.
-
----
-
-Version: 1.1.1
