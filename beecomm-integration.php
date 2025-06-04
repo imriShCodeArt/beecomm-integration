@@ -11,16 +11,23 @@ define('BEECOMM_PLUGIN_DIR', rtrim(plugin_dir_path(__FILE__), '/') . '/');
 define('BEECOMM_PLUGIN_LIB', BEECOMM_PLUGIN_DIR . 'lib/');
 
 $required_files = [
-    // Constants and Core Integration
+    // Constants
     'beecomm_constants.php',
-    'integration.php',
+
+    // Core Order & API Integration
+    'orders/beecomm-payload.php',
+    'orders/send-order.php',
+    'orders/format-items.php',
+    'api/auth.php',
+    'api/request.php',
+    'utils/meta.php',
+
+    // Newsletter and Order Columns
+    'elementor/newsletter-hook.php',
+    'admin/order-columns.php',
 
     // Logger
     'utils/logger.php',
-
-    // Order & API Logic
-    'orders/order-utils.php',
-    'api/beecomm-status.php',
 
     // SMS System
     'sms/send-order-status-sms.php',
