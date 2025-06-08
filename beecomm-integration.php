@@ -22,6 +22,7 @@ $required_files = [
     'api/auth.php',
     'api/request.php',
     'utils/meta.php',
+    'api/beecomm-status.php',
 
     // Newsletter and Order Columns
     'elementor/newsletter-hook.php',
