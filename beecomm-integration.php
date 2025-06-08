@@ -18,6 +18,7 @@ $required_files = [
     'orders/beecomm-payload.php',
     'orders/send-order.php',
     'orders/format-items.php',
+    'orders/order-utils.php',
     'api/auth.php',
     'api/request.php',
     'utils/meta.php',
