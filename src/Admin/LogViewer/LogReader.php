@@ -1,0 +1,24 @@
+<?php
+
+namespace BeeComm\Admin\LogViewer;
+
+final class LogReader
+{
+    private string $logPath;
+
+    public function __construct()
+    {
+        $config = require __DIR__ . '/../../../config/plugin-config.php';
+        $this->logPath = $config['log_file_directory'] . $config['log_file_name'];
+    }
+
+    public function getEntries(): array
+    {
+        if (!file_exists($this->logPath) || !is_readable($this->logPath)) {
+            return [];
+        }
+
+        $lines = file($this->logPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        return array_reverse($lines);
+    }
+}
