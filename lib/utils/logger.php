@@ -50,3 +50,14 @@ function beecommLog($entry, $type = 'info', $method = '', $mode = 'a', $filename
 // {
 //     beecommLog($message, 'error', $method);
 // }
+
+
+if (!function_exists('beecomm_log')) {
+    function beecomm_log($message) {
+        if (is_array($message) || is_object($message)) {
+            $message = print_r($message, true);
+        }
+
+        error_log('[BeeComm] ' . $message);
+    }
+}

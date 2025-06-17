@@ -46,7 +46,7 @@ const BEECOM_ORDER_STATUS_API_URL = '/api/v2/services/orderCenter/getOrderStatus
 const BEECOM_ORDER_STATUS_CODE = [
     0 => 'wc-on-hold',
     1 => 'wc-completed',
-    2 => 'wc-pending',
+    2 => 'wc-processing',
 ];
 
 /**
