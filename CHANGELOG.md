@@ -4,6 +4,24 @@ All notable changes to the BeeComm Integration plugin will be documented in this
 
 ---
 
+## [1.1.3] - 2025-06-17
+
+### 🆕 Added
+- New `api/beecomm-status.php` handler to allow querying order status externally
+- `beecomm_log()` helper in `utils/logger.php` for consistent debug and error logging
+
+### 🛠 Changed
+- Updated `BEECOM_ORDER_STATUS_CODE[2]` from `wc-pending` → `wc-processing` to better reflect WooCommerce flow
+- Refactored `get_orders_by_status()`:
+  - Now strips `wc-` prefix before querying
+  - Logs fetched orders for improved traceability
+- Refactored `beecomm_cron_update_order_status()` to:
+  - Use consistent mapped status
+  - Improve reliability of SMS retry clearing
+- Rewrote `get_order_template_content()` logic to use traditional `if/elseif` instead of `match` (for better PHP version compatibility)
+
+---
+
 ## [1.1.2] - 2025-06-04
 
 ### Added

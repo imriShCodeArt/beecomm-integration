@@ -6,7 +6,7 @@ A WordPress plugin that integrates your WooCommerce-based restaurant with BeeCom
 
 ## 🚀 Version
 
-**v1.1.2** – Now modular and more maintainable. See `CHANGELOG.md` for full details.
+**v1.1.3** – Improved order status sync logic, added BeeComm status API, and enhanced logging/debugging.
 
 ---
 
@@ -65,7 +65,7 @@ Example Tags:
 ## 🗓 Cron Job Behavior
 
 The plugin registers a cron job (`beecomm_order_status_cron`) that:
-- Fetches all `wc-pending` orders
+- Fetches all `wc-processing` orders
 - Queries BeeComm for each order’s status
 - Updates WooCommerce orders accordingly
 - Retries failed syncs up to 3 times
@@ -101,7 +101,9 @@ Both available under:
 - Hooks used:
   - `woocommerce_order_status_processing` → triggers BeeComm sync
   - `beecomm_order_status_cron` → triggers cron sync
-- Logs written with: `wofErrorLog()` helper in `utils/logger.php`
+- Logs written with:
+  - `wofErrorLog()` – legacy error logging
+  - `beecomm_log()` – new lightweight debug/error logger
 - Constants defined in: `lib/beecomm_constants.php`
 
 ---
