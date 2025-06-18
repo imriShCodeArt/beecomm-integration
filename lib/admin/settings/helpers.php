@@ -14,6 +14,8 @@ function beecomm_order_template_section_callback($args)
     <style>
         #msg-instructions {
             position: relative;
+            height: 200px;
+            overflow: scroll;
         }
 
         .tag-info {

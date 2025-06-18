@@ -18,13 +18,13 @@ $required_files = [
     'orders/beecomm-payload.php',
     'orders/send-order.php',
     'orders/format-items.php',
+    'orders/sent-to-beecomm.php',
     'api/auth.php',
     'api/request.php',
     'utils/meta.php',
 
     // Newsletter and Order Columns
     'elementor/newsletter-hook.php',
-    'admin/order-columns.php',
 
     // Logger
     'utils/logger.php',
@@ -43,6 +43,7 @@ $required_files = [
     'admin/settings/register-settings.php',
     'admin/settings/field-callbacks.php',
     'admin/settings/helpers.php',
+    'admin/order-columns.php',
 
     // Admin Log Viewer Page (modular)
     'admin/log-viewer/index.php',

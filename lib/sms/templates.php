@@ -12,7 +12,7 @@
  */
 function get_order_template_content( $order_status, $order_method = 'pickup' ) {
 	$options = get_option( BEECOMM_INTEGRATION_OPTIONS );
-	$default_template = __( BEECOM_DEFAULT_ORDER_TEMPLATE, 'beecomm' );
+	$default_template = __( BEECOM_DEFAULT_ORDER_TEMPLATE, 'beecomm-integration' );
 
 	$template_key = match ( true ) {
 		$order_status === BEECOM_ORDER_STATUS_CODE[0] && $order_method === 'pickup' => BEECOMM_ORDER_HOLD_TEMPLATE_PICKUP,

@@ -12,7 +12,7 @@ function beecomm_render_plugin_settings_page()
             <?php
             settings_fields('beecomm_integration_options');
             do_settings_sections('beecomm_integration');
-            submit_button(__('Save', 'beecomm'));
+            submit_button(__('Save', 'beecomm-integration'));
             ?>
         </form>
     </div>
