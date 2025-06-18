@@ -3,7 +3,7 @@
   "description": "Refactored OOP version of BeeComm integration plugin.",
   "autoload": {
     "psr-4": {
-      "Imriw\\BeecommIntegration\\": "src/"
+      "BeeComm\\": "src/"
     }
   },
   "authors": [

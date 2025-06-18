@@ -13,5 +13,11 @@ defined('ABSPATH') || exit;
 require_once __DIR__ . '/vendor/autoload.php';
 
 use BeeComm\Core\Plugin;
+use BeeComm\Config\Constants;
+
+register_deactivation_hook(__FILE__, function () {
+    wp_clear_scheduled_hook(Constants::CRON_HOOK_CHECK_STATUS);
+});
+
 
 Plugin::getInstance()->boot();
