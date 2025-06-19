@@ -7,57 +7,24 @@
  * Author URI:  https://clients.libiserv.co.il/
  */
 
-define('BEECOMM_PLUGIN_DIR', rtrim(plugin_dir_path(__FILE__), '/') . '/');
-define('BEECOMM_PLUGIN_LIB', BEECOMM_PLUGIN_DIR . 'lib/');
-
-$required_files = [
-    // Constants
-    'beecomm_constants.php',
-
-    // Core Order & API Integration
-    'orders/beecomm-payload.php',
-    'orders/send-order.php',
-    'orders/format-items.php',
-    'orders/sent-to-beecomm.php',
-    'api/auth.php',
-    'api/beecomm-status.php',
-    'api/request.php',
-    'utils/meta.php',
-
-    // Newsletter and Order Columns
-    'elementor/newsletter-hook.php',
-
-    // Logger
-    'utils/logger.php',
-
-    // SMS System
-    'sms/send-order-status-sms.php',
-    'sms/templates.php',
-
-    // Cron Jobs
-    'cron/update-order-status.php',
-    'cron/hooks.php',
-
-    // Admin Settings Page (modular)
-    'admin/settings/index.php',
-    'admin/settings/render-settings-page.php',
-    'admin/settings/register-settings.php',
-    'admin/settings/field-callbacks.php',
-    'admin/settings/helpers.php',
-    'admin/order-columns.php',
-
-    // Admin Log Viewer Page (modular)
-    'admin/log-viewer/index.php',
-    'admin/log-viewer/log-reader.php',
-    'admin/log-viewer/render-log-table.php',
-    'admin/log-viewer/render-helpers.php',
-];
-
-foreach ($required_files as $file) {
-    $path = BEECOMM_PLUGIN_LIB . $file;
-    if (file_exists($path)) {
-        require_once $path;
-    } else {
-        error_log("Beecomm plugin error: missing file $path");
-    }
+// Define plugin version constant
+if ( ! defined( 'BEECOMM_INTEGRATION_VERSION' ) ) {
+	define( 'BEECOMM_INTEGRATION_VERSION', '1.1.2' );
 }
+
+// Define core path constants
+define( 'BEECOMM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'BEECOMM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+// Load core plugin class
+require_once BEECOMM_PLUGIN_DIR . 'includes/class-beecomm-integration.php';
+
+// Legacy procedural bootstrapping (will be removed as we refactor)
+require_once BEECOMM_PLUGIN_DIR . 'lib/bootstrap-legacy.php';
+
+// Initialize and run the plugin
+function run_beecomm_integration() {
+	$plugin = new Beecomm_Integration();
+	$plugin->run();
+}
+run_beecomm_integration();
