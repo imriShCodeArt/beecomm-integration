@@ -46,6 +46,8 @@ function send_order_status_sms($order_id, $order_status)
 
 		$sms_api = Wof_Sms_Api::getInstance();
 
+		error_log("Order Status: $order_status");
+
 		$phone = ($order_status === BEECOM_ORDER_STATUS_CODE[0])
 			? get_option(BEECOMM_ADMIN_PHONE)
 			: $order->get_billing_phone();

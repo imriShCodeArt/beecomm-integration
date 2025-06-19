@@ -20,6 +20,7 @@ $required_files = [
     'orders/format-items.php',
     'orders/sent-to-beecomm.php',
     'api/auth.php',
+    'api/beecomm-status.php',
     'api/request.php',
     'utils/meta.php',
 

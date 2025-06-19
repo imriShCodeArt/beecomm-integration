@@ -70,9 +70,9 @@ Tags will call the getters of the order object, so you can use any getter of the
  * === Default Message Template ===
  */
 const BEECOM_DEFAULT_ORDER_TEMPLATE = '
-Order Status Updated.
-Dear {{billing_first_name}},
-Your order {{id}} status has been updated to {{status}}.
-Preparation Time: {{preparation_time}}
-For more details, please visit your account.
-Thank you for shopping with us.';
+סטטוס ההזמנה עודכן.
+{{billing_first_name}} היקר/ה,
+סטטוס ההזמנה שלך מספר {{id}} עודכן ל-{{status}}.
+זמן הכנה משוער: {{preparation_time}}
+למידע נוסף, ניתן להיכנס לחשבון המשתמש שלך.
+תודה שקנית אצלנו.';
