@@ -6,7 +6,7 @@
  * This file is used to markup the admin-facing aspects of the plugin.
  *
  * @link       https://https://clients.libiserv.co.il/
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    Beecomm_Integration
  * @subpackage Beecomm_Integration/admin/partials

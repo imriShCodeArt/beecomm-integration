@@ -1,4 +1,4 @@
-<div class="wrap">
+﻿<div class="wrap">
     <h1>צפייה בלוג</h1>
     <table class="widefat striped log-table">
         <thead>
@@ -11,7 +11,7 @@
         <tbody>
             <?php foreach ($log_entries as $entry): ?>
                 <tr class="log-row level-<?php echo esc_attr($entry['level']); ?>">
-                    <td><?php echo esc_html($entry['time']); ?></td>
+                    <td class="time_columns" style="width:20%;"><?php echo esc_html($entry['time']); ?></td>
                     <td><?php echo esc_html(strtoupper($entry['level'])); ?></td>
                     <td>
                         <pre><?php echo $entry['message']; ?></pre>
@@ -43,5 +43,8 @@
 
     .level-debug td {
         background: #f1f1f1;
+    }
+    .time_columns{
+        max-width: 100px!important;
     }
 </style>

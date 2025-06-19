@@ -2,14 +2,14 @@
 /**
  * Plugin Name: התממשקות לביקום
  * Description: שליחת פרטי ההזמנות באתר למערכת Beecomm
- * Version:     1.1.2
+ * Version:     2.0.0
  * Author:      M.L Web Solutions
  * Author URI:  https://clients.libiserv.co.il/
  */
 
 // Define plugin version constant
 if ( ! defined( 'BEECOMM_INTEGRATION_VERSION' ) ) {
-	define( 'BEECOMM_INTEGRATION_VERSION', '1.1.2' );
+	define( 'BEECOMM_INTEGRATION_VERSION', '2.0.0' );
 }
 
 // Define core path constants

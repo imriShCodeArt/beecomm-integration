@@ -4,7 +4,7 @@
  * The file that defines the core plugin class.
  *
  * @link       https://clients.libiserv.co.il/
- * @since      1.0.0
+ * @since      2.0.0
  *
  * @package    Beecomm_Integration
  * @subpackage Beecomm_Integration/includes
@@ -52,7 +52,7 @@ class Beecomm_Integration
 	 */
 	public function __construct()
 	{
-		$this->version = defined('BEECOMM_INTEGRATION_VERSION') ? BEECOMM_INTEGRATION_VERSION : '1.0.0';
+		$this->version = defined('BEECOMM_INTEGRATION_VERSION') ? BEECOMM_INTEGRATION_VERSION : '2.0.0';
 		$this->plugin_name = self::PLUGIN_NAME;
 
 		$this->load_dependencies();

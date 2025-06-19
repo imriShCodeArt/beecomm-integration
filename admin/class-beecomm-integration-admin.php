@@ -3,7 +3,7 @@
  * The admin-specific functionality of the plugin.
  *
  * @link       https://clients.libiserv.co.il/
- * @since      1.1.3
+ * @since      2.0.0
  * @package    Beecomm_Integration
  * @subpackage Beecomm_Integration/admin
  */
@@ -14,7 +14,7 @@ class Beecomm_Integration_Admin
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 * @access   private
 	 * @var      string
 	 */
@@ -23,7 +23,7 @@ class Beecomm_Integration_Admin
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
+	 * @since    2.0.0
 	 * @access   private
 	 * @var      string
 	 */
@@ -302,17 +302,36 @@ class Beecomm_Integration_Admin
 
 	public function add_order_columns($columns)
 	{
-		$columns['beecomm_status'] = 'Beecomm Status';
+		$columns['beecomm_status'] = 'סטטוס ביקום';
+		$columns['beecomm_orderID'] = 'מספר הזמנה ביקום';
 		return $columns;
 	}
 
+
 	public function render_order_column($column, $post_id)
 	{
+		if (!in_array($column, ['beecomm_status', 'beecomm_orderID'], true)) {
+			return;
+		}
+
+		$order = wc_get_order($post_id);
+		$response = $order->get_meta('_beecomm_order_status');
+		$data = json_decode(stripslashes($response), true);
+
 		if ($column === 'beecomm_status') {
-			$status = get_post_meta($post_id, '_beecomm_status', true);
-			echo esc_html($status ?: 'N/A');
+			$status = $data['message'] ?? '';
+			if ($status === 'order accepted') {
+				$status = '<span style="color: green;">&#x2714;</span> אושר';
+			}
+			echo $status;
+		}
+
+		if ($column === 'beecomm_orderID') {
+			$orderId = $data['orderCenterId'] ?? '';
+			echo '<input type="text" value="' . esc_attr($orderId) . '" readonly>';
 		}
 	}
+
 
 
 
