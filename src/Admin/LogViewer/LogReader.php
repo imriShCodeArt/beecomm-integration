@@ -2,13 +2,15 @@
 
 namespace BeeComm\Admin\LogViewer;
 
+use BeeComm\Config\PluginConfig;
+
 final class LogReader
 {
     private string $logPath;
 
     public function __construct()
     {
-        $config = require __DIR__ . '/../../../config/plugin-config.php';
+        $config = PluginConfig::get();
         $this->logPath = $config['log_file_directory'] . $config['log_file_name'];
     }
 

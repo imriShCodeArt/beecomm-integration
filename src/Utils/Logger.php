@@ -2,6 +2,8 @@
 
 namespace BeeComm\Utils;
 
+use BeeComm\Config\PluginConfig;
+
 final class Logger
 {
     private static string $logPath;
@@ -9,7 +11,7 @@ final class Logger
     private static function ensureLogPath(): void
     {
         if (!isset(self::$logPath)) {
-            $config = require __DIR__ . '/../../config/plugin-config.php';
+            $config = PluginConfig::get();
             self::$logPath = $config['log_file_directory'] . $config['log_file_name'];
         }
 

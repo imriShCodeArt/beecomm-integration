@@ -1,1 +1,32 @@
+# === Composer ===
 /vendor/
+composer.lock
+
+# === WordPress ===
+/wp-content/uploads/
+/wp-content/cache/
+/wp-content/backups/
+/wp-content/upgrade/
+/wp-content/advanced-cache.php
+/.htaccess
+/.DS_Store
+thumbs.db
+
+# === System Files ===
+*.log
+*.sql
+*.sqlite
+*.env
+.env.*
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === IDEs & OS ===
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
