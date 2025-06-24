@@ -4,6 +4,41 @@ All notable changes to the BeeComm Integration plugin will be documented in this
 
 ---
 
+## [2.0.0] - 2025-06-24
+
+### 🧱 Refactored
+
+- Complete migration to an OOP architecture.
+- Organized files into purpose-specific folders:
+  - `admin/` – admin classes, styles, JS, and partials (UI components)
+  - `includes/` – core classes for loading, activation, cron, and services like SMS and orders
+  - `public/` – frontend hooks, styles, scripts, and display templates
+  - `languages/` – `.pot` file for translation support
+
+### 🗑️ Removed
+
+- Old domain-specific modular subfolders (`orders/`, `api/`, `utils/`, etc.)
+- Deprecated logic and file references such as:
+  - `integration.php`
+  - `admin_page.php`
+  - `log-viewer.php`
+  - Direct cURL calls
+
+### 🚀 Improved
+
+- Centralized functionality through reusable class-based services.
+- Replaced inline procedural logic with maintainable components.
+- All logic is encapsulated and follows WordPress/OOP best practices.
+
+### 🧪 Maintained Features
+
+- SMS notification system
+- Cron job support
+- Log viewer UI
+- Admin configuration panel
+
+---
+
 ## [1.1.2] - 2025-06-04
 
 ### Added
