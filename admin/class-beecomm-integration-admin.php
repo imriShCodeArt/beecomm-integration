@@ -8,29 +8,22 @@
  * @subpackage Beecomm_Integration/admin
  */
 
+/**
+ * Class Beecomm_Integration_Admin
+ *
+ * Handles all admin-specific functionality, including settings registration,
+ * admin pages, log viewer, styles/scripts, and order table customization.
+ */
 class Beecomm_Integration_Admin
 {
-
-	/**
-	 * The ID of this plugin.
-	 *
-	 * @since    2.0.0
-	 * @access   private
-	 * @var      string
-	 */
+	/** @var string $plugin_name The plugin's unique identifier. */
 	private $plugin_name;
 
-	/**
-	 * The version of this plugin.
-	 *
-	 * @since    2.0.0
-	 * @access   private
-	 * @var      string
-	 */
+	/** @var string $version The plugin's current version. */
 	private $version;
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Beecomm_Integration_Admin constructor.
 	 *
 	 * @param string $plugin_name The name of this plugin.
 	 * @param string $version     The version of this plugin.
@@ -42,9 +35,9 @@ class Beecomm_Integration_Admin
 	}
 
 	/**
-	 * Register all WordPress admin hooks for this plugin.
+	 * Register all admin-related hooks with the loader.
 	 *
-	 * @param Beecomm_Integration_Loader $loader The loader instance to register hooks with.
+	 * @param Beecomm_Integration_Loader $loader
 	 */
 	public function register_hooks($loader)
 	{
@@ -52,15 +45,12 @@ class Beecomm_Integration_Admin
 		$loader->add_action('admin_init', $this, 'register_settings');
 		$loader->add_action('admin_enqueue_scripts', $this, 'enqueue_styles');
 		$loader->add_action('admin_enqueue_scripts', $this, 'enqueue_scripts');
-
-		// WooCommerce order table customization
 		$loader->add_filter('manage_edit-shop_order_columns', $this, 'add_order_columns');
 		$loader->add_action('manage_shop_order_posts_custom_column', $this, 'render_order_column', 10, 2);
 	}
 
-
 	/**
-	 * Register the settings page in the WordPress admin menu.
+	 * Add plugin settings and log viewer to admin menu.
 	 */
 	public function register_settings_page()
 	{
@@ -85,7 +75,7 @@ class Beecomm_Integration_Admin
 	}
 
 	/**
-	 * Render the settings page.
+	 * Output the settings page HTML.
 	 */
 	public function render_settings_page()
 	{
@@ -93,7 +83,7 @@ class Beecomm_Integration_Admin
 	}
 
 	/**
-	 * Register the plugin settings, sections, and fields.
+	 * Register plugin settings fields, sections, and validation.
 	 */
 	public function register_settings()
 	{
@@ -103,6 +93,7 @@ class Beecomm_Integration_Admin
 			[$this, 'validate_options']
 		);
 
+		// API Section
 		add_settings_section(
 			'api_settings',
 			'API Settings',
@@ -126,6 +117,7 @@ class Beecomm_Integration_Admin
 			'api_settings'
 		);
 
+		// SMS Template Settings
 		$order_template_args = [
 			'beecomm_order_template' => [
 				'title' => 'Order Message Template',
@@ -166,45 +158,17 @@ class Beecomm_Integration_Admin
 		}
 	}
 
-
 	/**
-	 * Enqueue styles for the admin area.
+	 * Output the API section description.
 	 */
-	public function enqueue_styles()
-	{
-		wp_enqueue_style(
-			$this->plugin_name,
-			plugin_dir_url(__FILE__) . 'css/beecomm-integration-admin.css',
-			[],
-			$this->version,
-			'all'
-		);
-	}
-
-	/**
-	 * Enqueue scripts for the admin area.
-	 */
-	public function enqueue_scripts()
-	{
-		wp_enqueue_script(
-			$this->plugin_name,
-			plugin_dir_url(__FILE__) . 'js/beecomm-integration-admin.js',
-			['jquery'],
-			$this->version,
-			false
-		);
-	}
-
-	public function validate_options($input)
-	{
-		return $input; // Add validation logic if needed
-	}
-
 	public function section_description_api()
 	{
 		echo '<p>כאן יש להכניס את פרטי המשתמש ממערכת Beecomm. את הפרטים יש לבקש מהתמיכה של Beecomm</p>';
 	}
 
+	/**
+	 * Render the Client ID input field.
+	 */
 	public function render_client_id_field()
 	{
 		$options = get_option('beecomm_integration_options');
@@ -212,6 +176,9 @@ class Beecomm_Integration_Admin
 		echo "<input id='beecomm_integration_setting_client_id' name='beecomm_integration_options[client_id]' type='text' value='" . esc_attr($value) . "' />";
 	}
 
+	/**
+	 * Render the Client Secret input field.
+	 */
 	public function render_client_secret_field()
 	{
 		$options = get_option('beecomm_integration_options');
@@ -219,12 +186,22 @@ class Beecomm_Integration_Admin
 		echo "<input id='beecomm_integration_setting_client_secret' name='beecomm_integration_options[client_secret]' type='text' value='" . esc_attr($value) . "' />";
 	}
 
+	/**
+	 * Render section description for message templates.
+	 *
+	 * @param array $args
+	 */
 	public function render_order_template_section($args)
 	{
 		echo '<div id="msg-instructions"><p class="tag-info" id="' . esc_attr($args['id']) . '">'
 			. wp_kses_post($args['description']) . '</p></div>';
 	}
 
+	/**
+	 * Render a text or textarea field.
+	 *
+	 * @param array $args
+	 */
 	public function render_order_template_field($args)
 	{
 		$options = get_option(BEECOMM_INTEGRATION_OPTIONS);
@@ -240,12 +217,59 @@ class Beecomm_Integration_Admin
 		}
 	}
 
+	/**
+	 * Validate and sanitize options.
+	 *
+	 * @param array $input
+	 * @return array
+	 */
+	public function validate_options($input)
+	{
+		return $input; // Add validation if necessary
+	}
+
+	/**
+	 * Enqueue admin-specific styles.
+	 */
+	public function enqueue_styles()
+	{
+		wp_enqueue_style(
+			$this->plugin_name,
+			plugin_dir_url(__FILE__) . 'css/beecomm-integration-admin.css',
+			[],
+			$this->version,
+			'all'
+		);
+	}
+
+	/**
+	 * Enqueue admin-specific scripts.
+	 */
+	public function enqueue_scripts()
+	{
+		wp_enqueue_script(
+			$this->plugin_name,
+			plugin_dir_url(__FILE__) . 'js/beecomm-integration-admin.js',
+			['jquery'],
+			$this->version,
+			false
+		);
+	}
+
+	/**
+	 * Display the log viewer admin page.
+	 */
 	public function render_log_viewer_page()
 	{
 		$log_entries = $this->read_log_file();
 		include plugin_dir_path(__FILE__) . 'partials/beecomm-integration-admin-log-viewer.php';
 	}
 
+	/**
+	 * Read and parse the log file.
+	 *
+	 * @return array
+	 */
 	private function read_log_file(): array
 	{
 		$uploads = wp_upload_dir();
@@ -259,7 +283,6 @@ class Beecomm_Integration_Admin
 		$entries = explode('inbeeCommOrder', $content);
 
 		$parsed = [];
-
 		foreach ($entries as $entry) {
 			$lines = array_filter(array_map('trim', explode("\n", $entry)));
 			if (empty($lines))
@@ -275,6 +298,12 @@ class Beecomm_Integration_Admin
 		return $parsed;
 	}
 
+	/**
+	 * Extract log timestamp.
+	 *
+	 * @param array $lines
+	 * @return string
+	 */
 	private function extract_time(array $lines): string
 	{
 		foreach ($lines as $line) {
@@ -285,6 +314,12 @@ class Beecomm_Integration_Admin
 		return '';
 	}
 
+	/**
+	 * Determine the log level.
+	 *
+	 * @param array $lines
+	 * @return string
+	 */
 	private function extract_log_level(array $lines): string
 	{
 		foreach ($lines as $line) {
@@ -300,6 +335,12 @@ class Beecomm_Integration_Admin
 		return 'info';
 	}
 
+	/**
+	 * Add custom order columns.
+	 *
+	 * @param array $columns
+	 * @return array
+	 */
 	public function add_order_columns($columns)
 	{
 		$columns['beecomm_status'] = 'סטטוס ביקום';
@@ -307,7 +348,12 @@ class Beecomm_Integration_Admin
 		return $columns;
 	}
 
-
+	/**
+	 * Render custom order column values.
+	 *
+	 * @param string $column
+	 * @param int $post_id
+	 */
 	public function render_order_column($column, $post_id)
 	{
 		if (!in_array($column, ['beecomm_status', 'beecomm_orderID'], true)) {
@@ -331,8 +377,4 @@ class Beecomm_Integration_Admin
 			echo '<input type="text" value="' . esc_attr($orderId) . '" readonly>';
 		}
 	}
-
-
-
-
 }
