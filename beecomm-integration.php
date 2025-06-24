@@ -1,23 +1,41 @@
 <?php
 /**
- * Plugin Name: BeeComm Integration for WooCommerce
- * Description: Syncs WooCommerce with BeeComm POS, sends SMS updates, and more.
- * Version: 2.0.0
- * Author: Your Agency
- * Text Domain: beecomm-integration
- * Domain Path: /languages
+ * Plugin Name: התממשקות לביקום
+ * Description: שליחת פרטי ההזמנות באתר למערכת Beecomm
+ * Version:     2.0.0
+ * Author:      M.L Web Solutions
+ * Author URI:  https://clients.libiserv.co.il/
  */
 
-defined('ABSPATH') || exit;
+// Exit if accessed directly
+if (!defined('ABSPATH')) {
+	exit;
+}
 
-require_once __DIR__ . '/vendor/autoload.php';
+// Define core plugin constants
+if (!defined('BEECOMM_INTEGRATION_VERSION')) {
+	define('BEECOMM_INTEGRATION_VERSION', '2.0.0');
+}
+if (!defined('BEECOMM_PLUGIN_DIR')) {
+	define('BEECOMM_PLUGIN_DIR', plugin_dir_path(__FILE__));
+}
+if (!defined('BEECOMM_PLUGIN_URL')) {
+	define('BEECOMM_PLUGIN_URL', plugin_dir_url(__FILE__));
+}
 
-use BeeComm\Core\Plugin;
-use BeeComm\Config\Constants;
+// Load Composer autoload if available (for future extension)
+$autoload_path = BEECOMM_PLUGIN_DIR . 'vendor/autoload.php';
+if (file_exists($autoload_path)) {
+	require_once $autoload_path;
+}
 
-register_deactivation_hook(__FILE__, function () {
-    wp_clear_scheduled_hook(Constants::CRON_HOOK_CHECK_STATUS);
-});
+// Load main plugin class
+require_once BEECOMM_PLUGIN_DIR . 'includes/class-beecomm-integration.php';
 
-
-Plugin::getInstance()->boot();
+// Initialize and run the plugin
+function run_beecomm_integration(): void
+{
+	$plugin = new Beecomm_Integration();
+	$plugin->run();
+}
+run_beecomm_integration();

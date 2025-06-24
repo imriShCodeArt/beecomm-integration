@@ -4,84 +4,108 @@ All notable changes to the BeeComm Integration plugin will be documented in this
 
 ---
 
-## [2.0.0] - 2025-06-17
+## [2.0.0] - 2025-06-24
 
-### 🆕 Added
-- Full PSR-4 compliant refactor using Composer autoloading.
-- Clean OOP architecture: services, use-cases, registrars, and infrastructure modules.
-- Modular folders: `Core`, `Orders`, `API`, `SMS`, `Cron`, `Elementor`, `Admin`, `Utils`.
-- `Logger` service with custom log formatting and auto-generated log folder.
-- Admin settings panel using `SettingsPage` with dynamic field registration.
-- Elementor integration via `NewsletterHook`.
-- Cron scheduler and handler via `StatusUpdater` with `beecomm_check_order_status` hook.
-- In-dashboard log viewer using `LogReader` and `TableRenderer` with status color badges.
+### 🧱 Refactored
 
-### 🔄 Changed
-- Replaced all procedural logic with domain-specific classes and namespaces.
-- Logging system replaced with `Logger::info()` / `Logger::error()` using timestamped JSON-friendly logs.
-- SMS handling abstracted into `SmsDispatcher` and `SmsTemplateManager`.
-- Configuration moved to `config/plugin-config.php`.
+- Complete migration to an OOP architecture.
+- Organized files into purpose-specific folders:
+  - `admin/` – admin classes, styles, JS, and partials (UI components)
+  - `includes/` – core classes for loading, activation, cron, and services like SMS and orders
+  - `public/` – frontend hooks, styles, scripts, and display templates
+  - `languages/` – `.pot` file for translation support
 
-### 🛠 Removed
-- All legacy files: `beecomm_constants.php`, `integration.php`, flat `lib/` structure.
-- Deprecated logger helpers (`beecomm_log()`, `wofErrorLog()`), replaced with `Logger`.
+### 🗑️ Removed
 
----
+- Old domain-specific modular subfolders (`orders/`, `api/`, `utils/`, etc.)
+- Deprecated logic and file references such as:
+  - `integration.php`
+  - `admin_page.php`
+  - `log-viewer.php`
+  - Direct cURL calls
 
-## [1.1.3] - 2025-06-17
+### 🚀 Improved
 
-### Added
-- New `api/beecomm-status.php` handler to allow querying order status externally
-- `beecomm_log()` helper in `utils/logger.php` for consistent debug and error logging
+- Centralized functionality through reusable class-based services.
+- Replaced inline procedural logic with maintainable components.
+- All logic is encapsulated and follows WordPress/OOP best practices.
 
-### Changed
-- Updated `BEECOM_ORDER_STATUS_CODE[2]` from `wc-pending` → `wc-processing` to better reflect WooCommerce flow
-- Refactored `get_orders_by_status()` to strip `wc-` prefix and log fetched orders
-- Rewrote `get_order_template_content()` logic to use traditional `if/elseif` instead of `match`
+### 🧪 Maintained Features
+
+- SMS notification system
+- Cron job support
+- Log viewer UI
+- Admin configuration panel
 
 ---
 
 ## [1.1.2] - 2025-06-04
 
 ### Added
-- Modular structure with folders for orders, API, utils, admin, and elementor
-- New `beecomm-payload.php` to build structured order data
+
+- Refactored plugin into a modular structure with organized folders:
+  - `orders/` – order formatting and sending logic
+  - `api/` – authentication and request handling
+  - `utils/` – reusable utilities (e.g., meta helpers, logging)
+  - `admin/` – settings UI and log viewer
+  - `elementor/` – newsletter form integration
+- New `beecomm-payload.php` to build structured order data before sending
 
 ### Changed
-- Deprecated `integration.php` replaced by modular components
-- `beecomm_get_base_url()` centralized in `api/request.php`
+
+- Removed deprecated file `integration.php` and split responsibilities into domain-specific modules
+- Centralized `beecomm_get_base_url()` inside `api/request.php` and reused across the codebase
+- Removed `admin_page.php` and `log-viewer.php` in favor of modularized equivalents
+- Replaced inline cURL code with reusable API call wrapper `make_beecomm_api_call()`
 
 ---
 
 ## [1.1.1] - 2025-06-04
 
-### Added
-- `README.md` and `CHANGELOG.md` files
+### 📝 Added
+
+- 📘 `README.md` file with detailed plugin overview, configuration instructions, and usage documentation.
+- 🧾 `CHANGELOG.md` file to track all versioned changes in the plugin.
 
 ---
 
 ## [1.1.0] - 2025-06-04
 
-### Added
-- Order sync via WP Cron
-- SMS system with template tags
-- Admin config: SMS templates, sync interval, phone number
-- Logging of SMS and sync events
+### ✨ Added
 
-### Changed
-- Dedicated constants file
-- Enhanced log formatting and viewer
+- ✅ **Order status synchronization** from BeeComm to WooCommerce via WP Cron.
+- ✅ **SMS notification system** with dynamic template tags for customer/admin messaging.
+- ✅ **Admin configuration options** for:
+  - SMS templates (per order status & method)
+  - Admin phone number
+  - Order sync interval
+  - Number of orders processed per cron run
+- ✅ **Dynamic tag processor** for generating SMS content using placeholders like `{{billing_first_name}}`, `{{status}}`, etc.
+- ✅ **Logging system** for SMS actions (`beecomm-sms-log.log`).
+- ✅ **Enhanced log viewer UI** with formatted order and status logs.
 
-### Fixed
-- Retry mechanism for failed syncs
-- Improved error handling
+### 🧱 Changed
+
+- ♻️ Refactored plugin structure with a dedicated `beecomm_constants.php` file for centralized configuration.
+- ♻️ Improved logging format using `beecommLog()` with timestamped structured entries.
+- ♻️ Extended log viewer to read logs from `wp-content/uploads`.
+
+### 🐛 Fixed
+
+- Minor improvements in error handling during order push and SMS sending.
+- Retry mechanism added for failed BeeComm status checks.
 
 ---
 
 ## [1.0.0] - Initial Release
 
-### Added
-- Core BeeComm integration
-- Admin settings panel
-- WooCommerce → BeeComm order mapping
-- Basic logging and admin log viewer
+### ✨ Added
+
+- ✅ Core integration with BeeComm API for order dispatch on `woocommerce_order_status_processing`.
+- ✅ Admin settings page to store BeeComm `Client ID` and `Client Secret`.
+- ✅ Data mapping of WooCommerce orders to BeeComm-compatible JSON structure.
+- ✅ Logging of sent orders to `error_log`.
+- ✅ Custom WooCommerce admin columns to show BeeComm sync status and order ID.
+- ✅ HTML-based log viewer in WordPress settings.
+
+---

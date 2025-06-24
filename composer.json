@@ -1,9 +1,8 @@
 {
   "name": "imriw/beecomm-integration",
-  "description": "Refactored OOP version of BeeComm integration plugin.",
   "autoload": {
     "psr-4": {
-      "BeeComm\\": "src/"
+      "Beecomm_Integration\\": "/"
     }
   },
   "authors": [
@@ -12,5 +11,7 @@
       "email": "59433290+imriShCodeArt@users.noreply.github.com"
     }
   ],
-  "require": {}
+  "require": {
+    "php": ">=8.0"
+  }
 }
